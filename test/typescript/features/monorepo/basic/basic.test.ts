@@ -2,8 +2,7 @@ import Scripts from '../../../../scripts';
 
 const scripts = Scripts.setupProjectFromTemplate({
   templateDir: __dirname,
-  projectType: 'typescript',
-  yarnInstall: true,
+  projectType: 'monorepo-typescript',
 });
 
 describe.each(['dev'] as const)('entries [%s]', mode => {
