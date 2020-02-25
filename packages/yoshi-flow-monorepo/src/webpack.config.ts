@@ -203,8 +203,19 @@ export function createWebWorkerWebpackConfig(
     target: isThunderboltElementModule(pkg) ? 'async-webworker' : 'webworker',
     isDev,
     isHot,
+    createEjsTemplates: pkg.config.experimentalBuildHtml,
     ...defaultOptions,
   });
+
+  workerConfig.plugins!.push(
+    new StatsWriterPlugin({
+      filename: `stats-worker${isDev ? '' : '.min'}.json`,
+      stats: {
+        all: true,
+        maxModules: Infinity,
+      },
+    }),
+  );
 
   workerConfig.output!.library = '[name]';
   workerConfig.output!.libraryTarget = 'umd';
