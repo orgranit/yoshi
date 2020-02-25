@@ -11,13 +11,13 @@ import runPrompt from './runPrompt';
 import generateProject from './generateProject';
 import TemplateModel from './TemplateModel';
 
-export interface CreateAppOptions {
+export type CreateAppOptions = {
   workingDir: string;
   templateModel?: TemplateModel;
   install?: boolean;
   lint?: boolean;
   commit?: boolean;
-}
+};
 
 export default async ({
   workingDir,

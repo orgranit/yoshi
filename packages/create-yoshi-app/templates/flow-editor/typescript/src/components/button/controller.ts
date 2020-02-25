@@ -1,11 +1,11 @@
 import Experiments from '@wix/wix-experiments';
 import { EXPERIMENTS_SCOPE } from '../../config/constants';
 
-export interface ControllerConfig {
+export type ControllerConfig = {
   appParams: any;
   setProps: Function;
   wixCodeApi: any;
-}
+};
 
 function getSiteLanguage({ wixCodeApi }: ControllerConfig) {
   if (wixCodeApi.window.multilingual.isEnabled) {

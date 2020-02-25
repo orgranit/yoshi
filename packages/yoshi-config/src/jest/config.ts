@@ -2,23 +2,23 @@
 import { LaunchOptions } from 'puppeteer';
 import { InitialOptions } from '@jest/types/build/Config';
 
-interface BootstrapSetupOptions {
+type BootstrapSetupOptions = {
   globalObject: any;
   getPort: () => number;
   staticsUrl: string;
   appConfDir: string;
   appLogDir: string;
   appPersistentDir: string;
-}
+};
 
-interface BootstrapTeardownOptions {
+type BootstrapTeardownOptions = {
   globalObject: any;
-}
+};
 
-interface BootstrapOptions {
+type BootstrapOptions = {
   setup?: (options: BootstrapSetupOptions) => Promise<any>;
   teardown?: (options: BootstrapTeardownOptions) => Promise<any>;
-}
+};
 
 type WhitelistedSpecOptions = Pick<
   InitialOptions,

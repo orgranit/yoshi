@@ -1,18 +1,18 @@
 type StateValue = boolean | number | string;
 
-interface StateMap {
+type StateMap = {
   [stateName: string]: StateValue;
-}
+};
 
-interface AttributeMap {
+type AttributeMap = {
   className?: string;
   [attributeName: string]: StateValue | undefined;
-}
+};
 
-interface InheritedAttributes {
+type InheritedAttributes = {
   className?: string;
   [props: string]: any;
-}
+};
 
 type RuntimeStylesheet = {
   (

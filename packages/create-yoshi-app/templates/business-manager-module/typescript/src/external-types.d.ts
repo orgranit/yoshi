@@ -2,12 +2,12 @@ declare module 'react-module-container' {
   import React from 'react';
   import { PageComponentId } from '@wix/business-manager-api';
 
-  export interface ReactLazyComponentOptions {
+  export type ReactLazyComponentOptions = {
     files: Array<string>;
     component: string;
     unloadStylesOnDestroy?: boolean;
     resolve?(): Promise<any>;
-  }
+  };
 
   export class ReactLazyComponent<P, S = {}> extends React.Component<P, S> {}
 

@@ -8,13 +8,13 @@ import {
 } from 'yoshi-server/types';
 import { HttpClient } from 'yoshi-server-client';
 
-interface Mock<Result extends FunctionResult, Args extends FunctionArgs> {
+type Mock<Result extends FunctionResult, Args extends FunctionArgs> = {
   request: {
     fn: DSL<Result, Args>;
     variables: Args;
   };
   result: () => OptionalPromise<Result>;
-}
+};
 
 export default class implements HttpClient {
   private mocks: Array<Mock<any, any>>;

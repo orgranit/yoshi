@@ -19,10 +19,10 @@ import devEnvironmentLogger from './dev-environment-logger';
 
 const isInteractive = process.stdout.isTTY;
 
-interface WebpackStatus {
+type WebpackStatus = {
   errors: Array<string>;
   warnings: Array<string>;
-}
+};
 
 type StartUrl = string | Array<string> | null | undefined;
 
@@ -43,7 +43,7 @@ export type State = {
   [type in ProcessType]?: ProcessState;
 };
 
-interface DevEnvironmentProps {
+type DevEnvironmentProps = {
   webpackDevServer: WebpackDevServer;
   serverProcess: ServerProcess;
   multiCompiler: webpack.MultiCompiler;
@@ -51,7 +51,7 @@ interface DevEnvironmentProps {
   suricate: boolean;
   storybookProcess?: ExecaChildProcess;
   startUrl?: StartUrl;
-}
+};
 
 export default class DevEnvironment {
   private props: DevEnvironmentProps;

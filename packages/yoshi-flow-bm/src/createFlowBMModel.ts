@@ -2,19 +2,19 @@ import path from 'path';
 import globby from 'globby';
 import { getProjectArtifactId } from 'yoshi-helpers/build/utils';
 
-export interface ComponentModel {
+export type ComponentModel = {
   componentId: string;
   componentPath: string;
-}
-export interface PageModel extends ComponentModel {
+};
+export type PageModel = {
   route: string;
-}
-export interface MethodModel {
+} & ComponentModel;
+export type MethodModel = {
   methodId: string;
   methodPath: string;
-}
+};
 
-export interface FlowBMModel {
+export type FlowBMModel = {
   moduleId: string;
   pages: Array<PageModel>;
   components: Array<ComponentModel>;
@@ -22,7 +22,7 @@ export interface FlowBMModel {
   moduleInitPath?: string;
   localePath: string;
   moduleConfig: any;
-}
+};
 
 const exts = '{js,jsx,ts,tsx}';
 const pagesPattern = `pages/**/*.${exts}`;

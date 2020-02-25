@@ -5,12 +5,12 @@ import filesize from 'filesize';
 import { sync as gzipSize } from 'gzip-size';
 import webpack from 'webpack';
 
-export interface Asset {
+export type Asset = {
   folder: string;
   name: string;
   size: number;
   gzipSize: number;
-}
+};
 
 export function printBundleSizeSuggestion() {
   console.log(chalk.dim('    Interested in reducing your bundle size?'));

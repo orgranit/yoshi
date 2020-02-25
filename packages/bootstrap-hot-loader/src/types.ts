@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-export interface BootstrapContext {
+export type BootstrapContext = {
   [name: string]: any;
-}
+};
 
 export type BootstrapFunction = (
   app: Router,

@@ -13,7 +13,7 @@ import { ComponentType } from 'react';
 import withBM from './withBM';
 import { IBMModuleParams } from './hooks/ModuleProvider';
 
-interface ModuleOptions {
+type ModuleOptions = {
   moduleId: string;
   pages: Array<{
     componentId: string;
@@ -34,7 +34,7 @@ interface ModuleOptions {
     _moduleParams: IBMModuleParams,
   ) => void;
   config?: any;
-}
+};
 
 export default function createModule({
   moduleId,

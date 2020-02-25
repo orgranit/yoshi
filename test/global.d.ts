@@ -1,6 +1,6 @@
 declare module NodeJS {
-  interface Global {
+  type Global = {
     yoshiPublishDir: string;
     teardown: () => void;
-  }
+  };
 }

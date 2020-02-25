@@ -3,10 +3,10 @@ import fs from 'fs-extra';
 
 export type Language = 'javascript' | 'typescript';
 
-export interface TemplateDefinition {
+export type TemplateDefinition = {
   name: string;
   path: string;
-}
+};
 
 export default class TemplateModel {
   readonly projectName: string;

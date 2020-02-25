@@ -31,10 +31,10 @@ export type ProjectType =
   | 'yoshi-server-javascript'
   | 'yoshi-server-typescript';
 
-interface ScriptOpts {
+type ScriptOpts = {
   args?: Array<string>;
   env?: { [key: string]: string };
-}
+};
 
 export default class Scripts {
   private readonly verbose: boolean;

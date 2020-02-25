@@ -5,28 +5,28 @@ import resolve from 'resolve';
 import fs from 'fs-extra';
 import { Config } from 'yoshi-config/build/config';
 
-export interface FlowEditorModel {
+export type FlowEditorModel = {
   appName: string;
   appDefId: string;
   artifactId: string;
   initApp: string;
   components: Array<ComponentModel>;
-}
+};
 
 type ComponentType = 'widget' | 'page';
 
-export interface ComponentModel {
+export type ComponentModel = {
   name: string;
   type: ComponentType;
   fileName: string;
   controllerFileName: string;
   settingsFileName: string | null;
   id: string | null;
-}
+};
 
-export interface ComponentConfig {
+export type ComponentConfig = {
   id: string;
-}
+};
 
 const extensions = ['.tsx', '.ts', '.js', '.json'];
 function resolveFrom(dir: string, fileName: string): string | null {

@@ -9,13 +9,13 @@ import {
 export const MODULE_ID = /* ModuleId.{%ProjectName%}*/ '{%PROJECT_NAME%}' as ModuleId;
 export const COMPONENT_NAME = /* PageComponentId.{%ProjectName%}*/ '{%projectName%}' as PageComponentId;
 
-export interface IERBConfig {
+export type IERBConfig = {
   topology: {
     staticsUrl: string;
   };
-}
+};
 
-export interface IBMModuleParams extends TModuleParams {
+export type IBMModuleParams = {
   locale: string;
   config: IERBConfig;
-}
+} & TModuleParams;
