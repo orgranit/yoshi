@@ -50,7 +50,7 @@ const isThunderboltElementModule = (pkg: PackageGraphNode) =>
   pkg.name === 'thunderbolt-elements';
 
 const isSiteAssetsModule = (pkg: PackageGraphNode) =>
-  pkg.name === 'thunderbolt-becky';
+  pkg.name === 'thunderbolt-becky' || pkg.name === '@wix/thunderbolt-becky';
 
 export function createClientWebpackConfig(
   rootConfig: Config,
