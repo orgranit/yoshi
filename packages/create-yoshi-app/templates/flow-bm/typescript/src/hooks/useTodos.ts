@@ -4,11 +4,11 @@ import { ModuleRegistry } from 'react-module-container';
 const getTodos = (): Promise<Array<Todo>> =>
   ModuleRegistry.invoke(`{%projectName%}.methods.getTodos`, undefined);
 
-export type Todo = {
+export interface Todo {
   id: string;
   text: string;
   done?: boolean;
-};
+}
 
 const checkTodo = (
   todos: Array<Todo>,

@@ -12,9 +12,9 @@ declare module 'react-i18next' {
 
   export const I18nextProvider: any;
 
-  export type InjectedTranslateProps = {
+  export interface InjectedTranslateProps {
     t: TranslationFunction;
-  };
+  }
 
   export const translate: (
     opts?: any,

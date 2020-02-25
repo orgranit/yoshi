@@ -4,9 +4,9 @@ import {
   ModuleConfigFileEmitter,
 } from '@wix/business-manager/dist/testkit';
 
-type TestKitConfigOptions = {
+interface TestKitConfigOptions {
   withRandomPorts: boolean;
-};
+}
 
 const getTestKitConfig = async (
   { withRandomPorts }: TestKitConfigOptions = { withRandomPorts: false },

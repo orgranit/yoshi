@@ -5,8 +5,7 @@
     "import/no-extraneous-dependencies": "error",
     "array-callback-return": "off",
     "react-hooks/exhaustive-deps": "off",
-    "no-shadow": "off",
-    "@typescript-eslint/consistent-type-definitions": ["error", "type"]
+    "no-shadow": "off"
   },
   "settings": {
     "react": {

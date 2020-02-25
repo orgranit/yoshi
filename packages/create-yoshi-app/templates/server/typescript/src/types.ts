@@ -1,3 +1,3 @@
-export type AppContext = {
+export interface AppContext {
   readonly petriScopes: Array<string>;
-};
+}

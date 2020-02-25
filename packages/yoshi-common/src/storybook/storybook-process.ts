@@ -5,9 +5,9 @@ import createWebpackConfig from './storybook.webpack.config';
 
 const storyBookConfigFolder = path.join(__dirname, '../..', '.storybook');
 
-type StorybookProcessOptions = {
+interface StorybookProcessOptions {
   port: number;
-};
+}
 
 export default class StorybookProcess extends EventEmitter {
   port: number;

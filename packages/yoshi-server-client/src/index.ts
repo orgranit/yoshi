@@ -8,11 +8,11 @@ import {
 } from 'yoshi-server/types';
 import { joinUrls } from './utils';
 
-type Options = {
+interface Options {
   baseUrl?: string;
-};
+}
 
-export type HttpClient = {
+export interface HttpClient {
   request<Result extends FunctionResult, Args extends FunctionArgs>({
     method: { fileName, functionName },
     args,
@@ -22,7 +22,7 @@ export type HttpClient = {
     args: Args;
     headers?: { [index: string]: string };
   }): Promise<UnpackPromise<Result>>;
-};
+}
 
 // https://github.com/developit/unfetch/issues/46
 const fetch = unfetch;

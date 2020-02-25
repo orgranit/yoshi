@@ -31,10 +31,10 @@ export type ProjectType =
   | 'yoshi-server-javascript'
   | 'yoshi-server-typescript';
 
-type ScriptOpts = {
+interface ScriptOpts {
   args?: Array<string>;
   env?: { [key: string]: string };
-};
+}
 
 export default class Scripts {
   private readonly verbose: boolean;
@@ -241,6 +241,27 @@ export default class Scripts {
     }
 
     return buildResult;
+  }
+
+  async serve(
+    resolve: TestCallback,
+    reject: (reason: string) => void = () => {},
+  ) {
+    const serve = require('../packages/yoshi-flow-app/build/scripts/serve')
+      .default;
+
+    const curDir = process.cwd();
+    process.chdir(this.testDirectory);
+
+    try {
+      const stop = await serve();
+      await resolve();
+      await stop();
+    } catch (e) {
+      reject(e);
+    }
+
+    process.chdir(curDir);
   }
 
   async test(mode: 'prod' | 'dev') {

@@ -1,7 +1,7 @@
 import { DefinePlugin, Configuration } from 'webpack';
 import { createBaseWebpackConfig } from '../webpack.config';
 
-type StorybookWebpackConfigOptions = {
+interface StorybookWebpackConfigOptions {
   projectRoot: string;
   /**
    * TODO - Types
@@ -9,7 +9,7 @@ type StorybookWebpackConfigOptions = {
    * @param options
    */
   reporter(middlewareOptions: any, options: any): void;
-};
+}
 
 const createCustomStorybookWebpackConfig = ({
   projectRoot,

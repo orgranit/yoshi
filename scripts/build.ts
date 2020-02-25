@@ -57,17 +57,15 @@ function adjustToTerminalWidth(str: string) {
   const WIDTH = columns - stringLength(OK) + 1;
   const strs = str.match(new RegExp(`(.{1,${WIDTH}})`, 'g'));
 
-  if (!strs) {
-    return null;
-  }
-
-  let lastString = strs[strs.length - 1];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  let lastString = strs![strs!.length - 1];
 
   if (lastString.length < WIDTH) {
     lastString += Array(WIDTH - lastString.length).join(chalk.dim('.'));
   }
 
-  return strs
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return strs!
     .slice(0, -1)
     .concat(lastString)
     .join('\n');

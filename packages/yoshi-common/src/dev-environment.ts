@@ -7,7 +7,7 @@ import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import { prepareUrls, Urls } from 'react-dev-utils/WebpackDevServerUtils';
 import openBrowser from './open-browser';
 import { PORT } from './utils/constants';
-import ServerProcess from './server-process';
+import { ServerProcessWithHMR } from './server-process';
 import { WebpackDevServer, host } from './webpack-dev-server';
 import { addEntry, createCompiler } from './webpack-utils';
 import { isTruthy } from './utils/helpers';
@@ -19,10 +19,10 @@ import devEnvironmentLogger from './dev-environment-logger';
 
 const isInteractive = process.stdout.isTTY;
 
-type WebpackStatus = {
+interface WebpackStatus {
   errors: Array<string>;
   warnings: Array<string>;
-};
+}
 
 type StartUrl = string | Array<string> | null | undefined;
 
@@ -43,15 +43,15 @@ export type State = {
   [type in ProcessType]?: ProcessState;
 };
 
-type DevEnvironmentProps = {
+interface DevEnvironmentProps {
   webpackDevServer: WebpackDevServer;
-  serverProcess: ServerProcess;
+  serverProcess: ServerProcessWithHMR;
   multiCompiler: webpack.MultiCompiler;
   appName: string;
   suricate: boolean;
   storybookProcess?: ExecaChildProcess;
   startUrl?: StartUrl;
-};
+}
 
 export default class DevEnvironment {
   private props: DevEnvironmentProps;
@@ -336,7 +336,7 @@ export default class DevEnvironment {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const publicPath = clientConfig.output!.publicPath!;
 
-    const serverProcess = await ServerProcess.create({
+    const serverProcess = await ServerProcessWithHMR.create({
       serverFilePath,
       cwd,
       suricate,

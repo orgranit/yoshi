@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-export type IPublicDataContext = {
+export interface IPublicDataContext {
   ready: boolean;
   readyPromise?: Promise<boolean>;
   set?: (key: string, value: any) => void;
@@ -8,14 +8,14 @@ export type IPublicDataContext = {
   // We just don't have the PublicData type yet
   get?: (key: string) => any;
   type?: PublicDataType;
-};
+}
 
 export type PublicDataType = 'viewer-public-data' | 'editor-public-data';
 
-export type IPublicData = {
+export interface IPublicData {
   set: (key: string, value: any) => void;
   get: (key: string) => any;
-};
+}
 
 export const PublicDataContext = createContext<IPublicDataContext>({
   ready: false,

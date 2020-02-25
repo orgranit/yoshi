@@ -25,14 +25,101 @@ function notUndefined<T>(x: T | undefined): x is T {
 
 const inspectArg = process.argv.find(arg => arg.includes('--debug'));
 
-export default class ServerProcess {
+export class ServerProcess {
   private cwd: string;
   private serverFilePath: string;
-  public socketServer: SocketServer;
+  private env: object;
   public child?: child_process.ChildProcess;
+  public appName: string;
+
+  constructor({
+    cwd = process.cwd(),
+    serverFilePath,
+    appName,
+    env = {
+      NODE_ENV: 'production',
+    },
+  }: {
+    cwd?: string;
+    serverFilePath: string;
+    appName: string;
+    env?: object;
+  }) {
+    this.cwd = cwd;
+    this.serverFilePath = serverFilePath;
+    this.appName = appName;
+    this.env = env;
+  }
+
+  async initialize() {
+    const bootstrapEnvironmentParams = getDevelopmentEnvVars({
+      port: PORT,
+      cwd: this.cwd,
+    });
+
+    this.child = child_process.fork(this.serverFilePath, [], {
+      stdio: 'pipe',
+      execArgv: [inspectArg]
+        .filter(notUndefined)
+        .map(arg => arg.replace('debug', 'inspect')),
+      env: {
+        ...process.env,
+        PORT: `${PORT}`,
+        ...bootstrapEnvironmentParams,
+        ...this.env,
+      },
+    });
+
+    const serverLogWriteStream = fs.createWriteStream(
+      path.join(this.cwd, SERVER_LOG_FILE),
+    );
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const serverOutLogStream = this.child.stdout!.pipe(serverLogPrefixer());
+    serverOutLogStream.pipe(serverLogWriteStream);
+    serverOutLogStream.pipe(process.stdout);
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const serverErrorLogStream = this.child.stderr!.pipe(serverLogPrefixer());
+    serverErrorLogStream.pipe(serverLogWriteStream);
+    serverErrorLogStream.pipe(process.stderr);
+
+    await waitPort({
+      port: PORT,
+      output: 'silent',
+      timeout: 20000,
+    });
+  }
+
+  async close() {
+    // @ts-ignore
+    if (this.child && this.child.exitCode === null) {
+      this.child.kill();
+
+      await new Promise(resolve => {
+        const check = () => {
+          if (this.child && this.child.killed) {
+            return resolve();
+          }
+
+          setTimeout(check, 100);
+        };
+
+        setTimeout(check, 100);
+      });
+    }
+  }
+
+  async restart() {
+    await this.close();
+
+    await this.initialize();
+  }
+}
+
+export class ServerProcessWithHMR extends ServerProcess {
+  public socketServer: SocketServer;
   private resolve?: (value?: unknown) => void;
   public suricate: boolean;
-  public appName: string;
 
   constructor({
     cwd,
@@ -47,11 +134,18 @@ export default class ServerProcess {
     suricate: boolean;
     appName: string;
   }) {
-    this.cwd = cwd;
+    super({
+      cwd,
+      serverFilePath,
+      appName,
+      env: {
+        HMR_PORT: `${socketServer.hmrPort}`,
+        NODE_ENV: 'development',
+      },
+    });
+
     this.socketServer = socketServer;
-    this.serverFilePath = serverFilePath;
     this.suricate = suricate;
-    this.appName = appName;
   }
 
   async initialize() {
@@ -61,54 +155,13 @@ export default class ServerProcess {
 
     await this.socketServer.initialize();
 
-    const bootstrapEnvironmentParams = getDevelopmentEnvVars({
-      port: PORT,
-      cwd: this.cwd,
-    });
-
-    this.child = child_process.fork(this.serverFilePath, [], {
-      stdio: 'pipe',
-      execArgv: [inspectArg]
-        .filter(notUndefined)
-        .map(arg => arg.replace('debug', 'inspect')),
-      env: {
-        ...process.env,
-        NODE_ENV: 'development',
-        PORT: `${PORT}`,
-        HMR_PORT: `${this.socketServer.hmrPort}`,
-        ...bootstrapEnvironmentParams,
-      },
-    });
-
-    const serverLogWriteStream = fs.createWriteStream(
-      path.join(this.cwd, SERVER_LOG_FILE),
-    );
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const serverOutLogStream = this.child.stdout!.pipe(serverLogPrefixer());
-    serverOutLogStream.pipe(serverLogWriteStream);
-    serverOutLogStream.pipe(process.stdout);
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const serverErrorLogStream = this.child.stderr!.pipe(serverLogPrefixer());
-    serverErrorLogStream.pipe(serverLogWriteStream);
-    serverErrorLogStream.pipe(process.stderr);
-
     this.socketServer.on('message', this.onMessage.bind(this));
 
-    await waitPort({
-      port: PORT,
-      output: 'silent',
-      timeout: 20000,
-    });
+    await super.initialize();
   }
 
   onMessage(response: any) {
     this.resolve && this.resolve(response);
-  }
-
-  end() {
-    this.child && this.child.kill();
   }
 
   send(message: any) {
@@ -117,23 +170,6 @@ export default class ServerProcess {
     return new Promise(resolve => {
       this.resolve = resolve;
     });
-  }
-
-  async restart() {
-    // @ts-ignore
-    if (this.child && this.child.exitCode === null) {
-      this.child.kill();
-
-      await new Promise(resolve =>
-        setInterval(() => {
-          if (this.child && this.child.killed) {
-            resolve();
-          }
-        }, 100),
-      );
-    }
-
-    await this.initialize();
   }
 
   static async create({
@@ -149,7 +185,7 @@ export default class ServerProcess {
   }) {
     const socketServer = await SocketServer.create();
 
-    return new ServerProcess({
+    return new ServerProcessWithHMR({
       socketServer,
       cwd,
       serverFilePath,

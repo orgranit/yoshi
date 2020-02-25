@@ -86,19 +86,19 @@ declare module '*.svg' {
 declare module '*.st.css' {
   type StateValue = boolean | number | string;
 
-  type StateMap = {
+  interface StateMap {
     [stateName: string]: StateValue;
-  };
+  }
 
-  type AttributeMap = {
+  interface AttributeMap {
     className?: string;
     [attributeName: string]: StateValue | undefined;
-  };
+  }
 
-  type InheritedAttributes = {
+  interface InheritedAttributes {
     className?: string;
     [props: string]: any;
-  };
+  }
 
   type RuntimeStylesheet = {
     (
