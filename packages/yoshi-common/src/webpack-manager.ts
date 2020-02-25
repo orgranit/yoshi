@@ -2,10 +2,10 @@ import webpack from 'webpack';
 import { runWebpack } from './webpack-utils';
 import { isTruthy } from './utils/helpers';
 
-export type NamedConfiguration = {
+export interface NamedConfiguration {
   name: string;
   configs: Array<webpack.Configuration>;
-};
+}
 
 export default class WebpackManager {
   private namedConfigs: Array<NamedConfiguration>;
@@ -41,8 +41,8 @@ export default class WebpackManager {
         // Webpack's configs and stats are being spread in a flat list
         // This function iterate over each app and locate the configs and stats
         // that assosiate with the requested app
-        for (let i = 0; i < this.namedConfigs.length; i++) {
-          const { name, configs } = this.namedConfigs[i];
+        for (const entry of this.namedConfigs) {
+          const { name, configs } = entry;
 
           if (configName === name) {
             appConfigEndIndex = appConfigStartIndex + configs.length;

@@ -19,10 +19,10 @@ import devEnvironmentLogger from './dev-environment-logger';
 
 const isInteractive = process.stdout.isTTY;
 
-type WebpackStatus = {
+interface WebpackStatus {
   errors: Array<string>;
   warnings: Array<string>;
-};
+}
 
 type StartUrl = string | Array<string> | null | undefined;
 
@@ -43,7 +43,7 @@ export type State = {
   [type in ProcessType]?: ProcessState;
 };
 
-type DevEnvironmentProps = {
+interface DevEnvironmentProps {
   webpackDevServer: WebpackDevServer;
   serverProcess: ServerProcess;
   multiCompiler: webpack.MultiCompiler;
@@ -51,7 +51,7 @@ type DevEnvironmentProps = {
   suricate: boolean;
   storybookProcess?: ExecaChildProcess;
   startUrl?: StartUrl;
-};
+}
 
 export default class DevEnvironment {
   private props: DevEnvironmentProps;
@@ -333,6 +333,7 @@ export default class DevEnvironment {
   }): Promise<DevEnvironment> {
     const [clientConfig, serverConfig] = webpackConfigs;
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const publicPath = clientConfig.output!.publicPath!;
 
     const serverProcess = await ServerProcess.create({

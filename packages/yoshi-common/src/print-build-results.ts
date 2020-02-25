@@ -5,12 +5,12 @@ import filesize from 'filesize';
 import { sync as gzipSize } from 'gzip-size';
 import webpack from 'webpack';
 
-export type Asset = {
+export interface Asset {
   folder: string;
   name: string;
   size: number;
   gzipSize: number;
-};
+}
 
 export function printBundleSizeSuggestion() {
   console.log(chalk.dim('    Interested in reducing your bundle size?'));
@@ -47,6 +47,7 @@ function prepareAssets(
 ): Array<Asset> {
   const assetsDir = optimizedStats.compilation.outputOptions.path;
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return optimizedStats
     .toJson({ all: false, assets: true })
     .assets!.filter(asset => !asset.name.endsWith('.map'))

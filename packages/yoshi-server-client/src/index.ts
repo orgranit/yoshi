@@ -8,9 +8,9 @@ import {
 } from 'yoshi-server/types';
 import { joinUrls } from './utils';
 
-type Options = {
+interface Options {
   baseUrl?: string;
-};
+}
 
 export interface HttpClient {
   request<Result extends FunctionResult, Args extends FunctionArgs>({

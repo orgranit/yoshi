@@ -19,30 +19,30 @@ export type FunctionArgs = Array<JsonValue>;
 export type FunctionResult = OptionalPromise<JsonValue | void | undefined>;
 
 // Server function types
-export type FunctionContext = {
+export interface FunctionContext {
   req: Request;
   res: Response;
   context: any;
-};
+}
 
 export type ServerFunction<
   Result extends FunctionResult,
   Args extends FunctionArgs
 > = (this: FunctionContext, ...args: Args) => Result;
 
-export type DSL<Result extends FunctionResult, Args extends FunctionArgs> = {
+export interface DSL<Result extends FunctionResult, Args extends FunctionArgs> {
   fileName: string;
   functionName: string;
   __fn__: ServerFunction<Result, Args>;
-};
+}
 
 // Route function types
-export type RouteContext = {
+export interface RouteContext {
   req: Request;
   res: Response;
   context: BootstrapContext;
   params: { [name: string]: any | undefined };
-};
+}
 
 export type RouteFunction<Result extends FunctionResult> = (
   this: RouteContext,
