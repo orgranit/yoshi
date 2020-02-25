@@ -2,10 +2,10 @@ import webpack from 'webpack';
 import { runWebpack } from './webpack-utils';
 import { isTruthy } from './utils/helpers';
 
-export interface NamedConfiguration {
+export type NamedConfiguration = {
   name: string;
   configs: Array<webpack.Configuration>;
-}
+};
 
 export default class WebpackManager {
   private namedConfigs: Array<NamedConfiguration>;

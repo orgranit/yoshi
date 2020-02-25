@@ -11,14 +11,14 @@ import { ROUTES_BUILD_DIR } from 'yoshi-config/build/paths';
 import { RouteFunction } from './types';
 import { relativeFilePath, pathMatch } from './utils';
 
-export interface Route {
+export type Route = {
   route: string;
   handler: (
     req: Request,
     res: Response,
     params: { [param: string]: any },
   ) => void;
-}
+};
 
 export default class Server {
   private context: any;

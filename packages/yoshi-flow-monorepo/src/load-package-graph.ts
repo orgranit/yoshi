@@ -5,7 +5,7 @@ import { Result } from 'npm-package-arg';
 import { Config } from 'yoshi-config/build/config';
 import loadConfig from 'yoshi-config/loadConfig';
 
-export interface Package {
+export type Package = {
   name: string;
   version: string;
   get: (key: string) => any;
@@ -22,9 +22,9 @@ export interface Package {
   devDependencies: Record<string, string>;
   optionalDependencies: Record<string, string>;
   peerDependencies: Record<string, string>;
-}
+};
 
-export interface PackageGraphNode {
+export type PackageGraphNode = {
   name: string;
   location: string;
   version: string;
@@ -35,15 +35,15 @@ export interface PackageGraphNode {
 
   // Custom properties
   config: Config;
-}
+};
 
 export type PackageGraph = Map<string, PackageGraphNode>;
 
-export interface LoadGraphResult {
+export type LoadGraphResult = {
   graph: PackageGraph;
   apps: Array<PackageGraphNode>;
   libs: Array<PackageGraphNode>;
-}
+};
 
 export default async function loadPackageGraph(): Promise<LoadGraphResult> {
   const { getPackages } = importCwd('@lerna/project') as any;

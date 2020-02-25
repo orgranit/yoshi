@@ -1,15 +1,15 @@
 import t from './template';
 
-export interface TemplateControllerConfig {
+export type TemplateControllerConfig = {
   id: string | null;
   controllerFileName: string;
-}
+};
 
-interface Opts {
+type Opts = {
   viewerScriptWrapperPath: string;
   initAppPath: string;
   controllersMeta: Array<TemplateControllerConfig>;
-}
+};
 
 const getControllerVariableName = (index: number) => `controller${index}`;
 

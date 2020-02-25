@@ -3,10 +3,10 @@ import { createInstances, objectPromiseAll, fetchFrameworkData } from './utils';
 
 let frameworkData: any;
 
-interface ControllerDescriptor {
+type ControllerDescriptor = {
   id: string | null;
   method: Function;
-}
+};
 
 const getFirstDescriptor = (descriptors: Array<ControllerDescriptor>) => {
   if (descriptors.length === 1) {

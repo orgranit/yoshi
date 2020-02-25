@@ -4,36 +4,36 @@ import { PackageJson } from 'read-pkg';
 
 type ProjectType = 'app' | 'library';
 
-interface PetriOptions {
+type PetriOptions = {
   onlyForLoggedInUsers?: boolean;
   scopes?: Array<string>;
-}
+};
 
-interface CdnConfig {
+type CdnConfig = {
   url: string;
   port: number;
   dir: string;
   ssl: boolean;
-}
+};
 
-interface HooksConfig {
+type HooksConfig = {
   prelint?: string;
-}
+};
 
-interface SpecsConfig {
+type SpecsConfig = {
   browser?: string;
   node?: string;
-}
+};
 
-interface featuresConfig {
+type featuresConfig = {
   externalizeRelativeLodash?: boolean;
-}
+};
 
 type WebpackEntry = string | Array<string> | Entry | EntryFunc;
 
 type WebpackExternals = ExternalsElement | Array<ExternalsElement>;
 
-export interface InitialConfig {
+export type InitialConfig = {
   extends?: string;
   separateCss?: boolean | 'prod';
   splitChunks?: Options.SplitChunksOptions | false;
@@ -76,9 +76,9 @@ export interface InitialConfig {
   };
   suricate?: boolean;
   experimentalStorybook?: boolean;
-}
+};
 
-export interface Config {
+export type Config = {
   name: string;
   unpkg: string | unknown;
   pkgJson: PackageJson;
@@ -124,4 +124,4 @@ export interface Config {
   webWorkerServerEntry?: WebpackEntry;
   suricate: boolean;
   experimentalStorybook: boolean;
-}
+};
